@@ -8,7 +8,8 @@ module lamego.lootzone {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires jdk.compiler;
 
     opens lamego.lootzone to javafx.fxml;
-    exports lamego.lootzone;
+    exports lamego.lootzone.app;
 }
