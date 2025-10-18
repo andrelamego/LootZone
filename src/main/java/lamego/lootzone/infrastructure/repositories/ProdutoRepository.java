@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoRepository implements IProdutoRepository<Produto> {
@@ -248,8 +249,68 @@ public class ProdutoRepository implements IProdutoRepository<Produto> {
     }
 
     @Override
-    public List<Produto> listar() {
-        return List.of();
+    public List<Produto> listar() throws SQLException, ClassNotFoundException {
+        UsuarioRepository usuarioRepository = new UsuarioRepository(dbconnection);
+        CategoriaRepository categoriaRepository = new CategoriaRepository(dbconnection);
+        List<Produto> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM t_produtos";
+        PreparedStatement ps = c.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            boolean adicionado = false;
+
+            //Procurar na tabela Jogos
+            if(!adicionado) {
+                String sqlJogo = "SELECT * FROM t_jogos WHERE ProdutoId = ?";
+                PreparedStatement psJogo = c.prepareStatement(sqlJogo);
+
+                ResultSet rsJogo = psJogo.executeQuery();
+
+                if(rsJogo.next()) {
+                    Jogo jogo = new Jogo();
+
+                    jogo.setId(rs.getLong("Id"));
+                    jogo.setNome(rs.getString("Nome"));
+                    jogo.setDescricao(rs.getString("Descricao"));
+                    jogo.setValor(rs.getFloat("Valor"));
+                    jogo.setVendedor(usuarioRepository.buscarVendedor(rs.getLong("VendedorId")));
+                    jogo.setCategoria(categoriaRepository.buscar(rs.getLong("CategoriaId")));
+                    jogo.setKey(rsJogo.getString("Key"));
+
+                    lista.add(jogo);
+                    adicionado = true;
+                }
+            }
+
+            //Procurar na tabela Itens
+            if(!adicionado){
+                String sqlItem = "SELECT * FROM t_itens WHERE ProdutoId = ?";
+                PreparedStatement psItem = c.prepareStatement(sqlItem);
+
+                ResultSet rsItem = psItem.executeQuery();
+
+                if(rsItem.next()) {
+                    Item item = new Item();
+
+                    item.setId(rs.getLong("Id"));
+                    item.setNome(rs.getString("Nome"));
+                    item.setDescricao(rs.getString("Descricao"));
+                    item.setValor(rs.getFloat("Valor"));
+                    item.setVendedor(usuarioRepository.buscarVendedor(rs.getLong("VendedorId")));
+                    item.setCategoria(categoriaRepository.buscar(rs.getLong("CategoriaId")));
+                    item.setQuantidade(rsItem.getInt("Quantidade"));
+
+                    lista.add(item);
+                    adicionado = true;
+                }
+            }
+        }
+
+        return lista;
+
     }
 
 
