@@ -7,6 +7,6 @@ public interface IRepository<T> {
     void salvar(T entidade) throws SQLException;
     void atualizar(T entidade) throws SQLException;
     void excluir(T entidade) throws SQLException;
-    T buscar(int id) throws SQLException;
+    T buscar(T entidade) throws SQLException, ClassNotFoundException;
     List<T> listar() throws SQLException;
 }
