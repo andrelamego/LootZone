@@ -14,8 +14,6 @@ module lamego.lootzone {
 
     opens lamego.lootzone to javafx.fxml;
     exports lamego.lootzone;
-    exports lamego.lootzone.app.controller;
-    opens lamego.lootzone.app.controller to javafx.fxml;
     exports lamego.lootzone.frameworks.ui.javafx.controllers;
     opens lamego.lootzone.frameworks.ui.javafx.controllers to javafx.fxml;
 }
