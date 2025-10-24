@@ -1,0 +1,65 @@
+@font-face {
+    font-family: 'Inter 24pt SemiBold';
+    src: url('fonts/inter/Inter_24pt-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'Inter 28pt Bold';
+    src: url('fonts/inter/Inter_28pt-Bold.ttf');
+}
+
+.bg {
+    -fx-background-color: #FAFAFA;
+}
+
+.gradient-bg {
+    -fx-background-color: linear-gradient(to bottom right, #791BF5, #FF540D);
+}
+
+.rounded-border {
+    -fx-border-radius: 15;
+    -fx-border-color: #CCCCCC;
+}
+
+.textlabel {
+    -fx-font-family: 'Inter 24pt SemiBold';
+}
+
+.textlabel-entrar {
+    -fx-font-family: 'Inter 28pt Bold';
+    -fx-font-size: 20px;
+}
+
+.textfield {
+    -fx-border-color: transparent;
+    -fx-background-color: #EBEBEB;
+    -fx-background-radius: 20;
+    -fx-cursor: text;
+    -fx-padding: 0 15 0 15;
+    -fx-font-family: 'Inter 24pt SemiBold';
+    -fx-font-size: 14px;
+}
+
+.textfield:focused {
+    -fx-background-color: #FAFAFA;
+    -fx-border-radius: 20;
+    -fx-border-color: #EBEBEB;
+    -fx-border-width: 2px;
+}
+
+.login-button {
+    -fx-background-radius: 15;
+    -fx-background-color: linear-gradient(to right, #791BF5, #FF540D);
+    -fx-text-fill: #fff;
+    -fx-font-family: 'Inter 28pt Bold';
+    -fx-font-size: 16px;
+}
+
+.login-button:hover {
+    -fx-background-color: #FAFAFA;
+    -fx-border-radius: 15;
+    -fx-border-width: 2px;
+    -fx-border-color: linear-gradient(to right, #791BF5, #FF540D);
+    -fx-text-fill: linear-gradient(to right, #791BF5, #FF540D);
+    -fx-cursor: hand;
+}
