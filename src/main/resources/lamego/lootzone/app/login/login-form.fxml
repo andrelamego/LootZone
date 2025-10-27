@@ -13,9 +13,9 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="280.0" spacing="10.0" styleClass="bg" stylesheets="@../../css/login-page.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lamego.lootzone.frameworks.ui.javafx.controllers.LoginFormController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="308.0" prefWidth="280.0" spacing="10.0" styleClass="rounded-border">
+      <VBox prefHeight="308.0" prefWidth="280.0" spacing="10.0" styleClass="rounded-border">
          <children>
-            <Label prefHeight="18.0" prefWidth="301.0" styleClass="textlabel-entrar" stylesheets="@../../css/login-page.css" text="Entrar">
+            <Label prefHeight="25.0" styleClass="textlabel-entrar" stylesheets="@../../css/login-page.css" text="Entrar">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>

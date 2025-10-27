@@ -4,12 +4,15 @@ import javafx.animation.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
 
@@ -25,6 +28,8 @@ public class LoginController implements Initializable {
     private VBox logoBox;
     @FXML
     private ImageView imgLogo;
+    @FXML
+    private Button closeButton;
 
     private VBox loginForm;
     private VBox signupForm;
@@ -51,7 +56,7 @@ public class LoginController implements Initializable {
             // Animação de expansão de largura
             Timeline expand = new Timeline(
                     new KeyFrame(Duration.seconds(0.6),
-                            new KeyValue(formBox.prefWidthProperty(), 350, Interpolator.SPLINE(0.3, 0.0, 0.9, 1.0)))
+                            new KeyValue(formBox.prefWidthProperty(), 350, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
             );
 
             expand.play();
@@ -68,6 +73,12 @@ public class LoginController implements Initializable {
             fadeIn.play();
         });
         waitPane.play();
+    }
+
+    @FXML
+    public void onCloseButton (ActionEvent e) {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 
     private void loadForms() {
@@ -100,16 +111,17 @@ public class LoginController implements Initializable {
         switch (formType) {
             case LOGIN -> {
                 FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), loginForm);
+                fadeOut.setInterpolator(Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0));
                 fadeOut.setToValue(0);
 
                 Timeline expand = new Timeline(
                         new KeyFrame(Duration.seconds(0.3),
-                                new KeyValue(formBox.prefWidthProperty(), 470, Interpolator.SPLINE(0.3, 0.0, 0.9, 1.0)))
+                                new KeyValue(formBox.prefWidthProperty(), 470, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
                 );
 
                 Timeline expandForm = new Timeline(
                         new KeyFrame(Duration.seconds(0.3),
-                                new KeyValue(loginForm.prefWidthProperty(), 400, Interpolator.SPLINE(0.3, 0.0, 0.9, 1.0)))
+                                new KeyValue(loginForm.prefWidthProperty(), 400, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
                 );
 
                 ParallelTransition animation = new ParallelTransition(expand, fadeOut, expandForm);
@@ -127,16 +139,17 @@ public class LoginController implements Initializable {
             }
             case SIGNUP -> {
                 FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), signupForm);
+                fadeOut.setInterpolator(Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0));
                 fadeOut.setToValue(0);
 
                 Timeline expand = new Timeline(
                         new KeyFrame(Duration.seconds(0.3),
-                                new KeyValue(formBox.prefWidthProperty(), 350, Interpolator.SPLINE(0.3, 0.0, 0.9, 1.0)))
+                                new KeyValue(formBox.prefWidthProperty(), 350, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
                 );
 
                 Timeline collapse = new Timeline(
                         new KeyFrame(Duration.seconds(0.3),
-                                new KeyValue(signupForm.prefWidthProperty(), 280, Interpolator.SPLINE(0.3, 0.0, 0.9, 1.0)))
+                                new KeyValue(signupForm.prefWidthProperty(), 280, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
                 );
 
                 ParallelTransition animation = new ParallelTransition(expand, fadeOut, collapse);
@@ -154,8 +167,6 @@ public class LoginController implements Initializable {
             }
         }
     }
-
-
 
     /**
      * Cores: Roxo #791BF5 e Laranja #FF540D.

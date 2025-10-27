@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
     @Override
@@ -12,6 +13,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(fxmlLoader.load());
 
         stage.setTitle("LootZone");
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
