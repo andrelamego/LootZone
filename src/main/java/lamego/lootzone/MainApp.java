@@ -1,11 +1,8 @@
 package lamego.lootzone;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -14,7 +11,8 @@ public class MainApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("app/login/login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        stage.setTitle("lootZone");
+        stage.setTitle("LootZone");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lamego.lootzone.frameworks.ui.javafx.controllers.LoginController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lamego.lootzone.frameworks.ui.javafx.controllers.LoginController">
    <children>
       <VBox fx:id="formBox" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="320.0" styleClass="bg" stylesheets="@../../css/login-page.css" />
       <VBox fx:id="logoBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="gradient-bg" stylesheets="@../../css/login-page.css" HBox.hgrow="ALWAYS">
          <children>
-            <ImageView fitHeight="61.0" fitWidth="397.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgLogo" fitHeight="61.0" fitWidth="397.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../icons/white-logo.png" />
                </image>
+               <effect>
+                  <DropShadow blurType="TWO_PASS_BOX" offsetX="4.0" offsetY="4.0" />
+               </effect>
             </ImageView>
          </children>
       </VBox>

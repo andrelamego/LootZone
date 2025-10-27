@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="280.0" spacing="10.0" styleClass="bg" stylesheets="@../../css/login-page.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="280.0" spacing="10.0" styleClass="bg" stylesheets="@../../css/login-page.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lamego.lootzone.frameworks.ui.javafx.controllers.LoginFormController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="308.0" prefWidth="280.0" spacing="10.0" styleClass="rounded-border">
          <children>
@@ -72,10 +73,19 @@
          </padding>
       </VBox>
       <Pane VBox.vgrow="ALWAYS" />
-      <Label styleClass="textlabel" stylesheets="@../../css/login-page.css" text="Não tem uma conta? Criar Conta">
+      <HBox alignment="CENTER" prefHeight="34.0" prefWidth="260.0">
+         <children>
+            <Label styleClass="textlabel" stylesheets="@../../css/login-page.css" text="Não tem uma conta?" />
+            <Button mnemonicParsing="false" onAction="#onCreateAccount" stylesheets="@../../css/login-page.css" text="Criar Conta" underline="true">
+               <styleClass>
+                  <String fx:value="textlabel" />
+                  <String fx:value="signup-button" />
+               </styleClass>
+            </Button>
+         </children>
          <VBox.margin>
             <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
-      </Label>
+      </HBox>
    </children>
 </VBox>

@@ -63,3 +63,9 @@
     -fx-text-fill: linear-gradient(to right, #791BF5, #FF540D);
     -fx-cursor: hand;
 }
+
+.signup-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: linear-gradient(to right, #791BF5, #FF540D);
+    -fx-cursor: hand;
+}
