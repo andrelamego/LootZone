@@ -3,20 +3,44 @@ package lamego.lootzone.domain.entities;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public abstract class Usuario {
+public class Usuario {
     private long id;
     private String nome;
     private String sobrenome;
     private String email;
+    private String senha;
     private String telefone;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
+
+    public Usuario(){
+        super();
+    }
+
+    public Usuario(String nome, String sobrenome, String email, String senha, String telefone, LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+        this.email = email;
+        this.nome = nome;
+        this.senha = senha;
+        this.sobrenome = sobrenome;
+        this.telefone = telefone;
+    }
+
+
 
     //GETTERS N SETTERS
-    public Date getDataNascimento() {
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

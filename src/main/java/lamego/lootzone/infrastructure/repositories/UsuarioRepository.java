@@ -5,10 +5,7 @@ import lamego.lootzone.domain.entities.*;
 import lamego.lootzone.infrastructure.database.IDBConnection;
 
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
         ps.setString(3, entidade.getSobrenome());
         ps.setString(4, entidade.getEmail());
         ps.setString(5, entidade.getTelefone());
-        ps.setDate(6, entidade.getDataNascimento());
+        ps.setDate(6, Date.valueOf(entidade.getDataNascimento()));
         ps.executeUpdate();
 
         //DEFINIR ID AUTOMATICAMENTE
@@ -102,7 +99,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
         ps.setString(2, entidade.getSobrenome());
         ps.setString(3, entidade.getEmail());
         ps.setString(4, entidade.getTelefone());
-        ps.setDate(5, entidade.getDataNascimento());
+        ps.setDate(5, Date.valueOf(entidade.getDataNascimento()));
 
         ps.setLong(6, entidade.getId());
         ps.executeUpdate();
@@ -201,7 +198,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
             entidade.setSobrenome(rs.getString("Sobrenome"));
             entidade.setEmail(rs.getString("Email"));
             entidade.setTelefone(rs.getString("Telefone"));
-            entidade.setDataNascimento(rs.getDate("DataNascimento"));
+            entidade.setDataNascimento(rs.getDate("DataNascimento").toLocalDate());
             cont++;
         }
         else {
@@ -222,7 +219,29 @@ public class UsuarioRepository implements IRepository<Usuario> {
         return entidade;
     }
 
-    //implementar
+    public Usuario validateLogin(String email) throws SQLException {
+        String sql = "SELECT Id, Nome, Sobrenome, Senha, Telefone, DataNascimento FROM t_usuarios WHERE Email = ?";
+        PreparedStatement ps = c.prepareStatement(sql);
+
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()) {
+            Usuario user = new Usuario();
+            user.setId(rs.getLong(1));
+            user.setNome(rs.getString(2));
+            user.setSobrenome(rs.getString(3));
+            user.setEmail(email);
+            user.setSenha(rs.getString(4));
+            user.setTelefone(rs.getString(5));
+            user.setDataNascimento(rs.getDate(6).toLocalDate());
+
+            return user;
+        }
+
+        return null;
+    }
+
     public Vendedor buscarVendedor(long id) throws SQLException {
         String sql = "SELECT Nome, Sobrenome, Email, Telefone, DataNascimento FROM t_usuarios WHERE Id = ?";
         PreparedStatement ps = c.prepareStatement(sql);
@@ -245,7 +264,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
             vendedor.setSobrenome(rs.getString("Sobrenome"));
             vendedor.setEmail(rs.getString("Email"));
             vendedor.setTelefone(rs.getString("Telefone"));
-            vendedor.setDataNascimento(rs.getDate("DataNascimento"));
+            vendedor.setDataNascimento(rs.getDate("DataNascimento").toLocalDate());
             vendedor.setCpf(rsPF.getString(1));
 
             return vendedor;
@@ -265,7 +284,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
             vendedor.setSobrenome(rs.getString("Sobrenome"));
             vendedor.setEmail(rs.getString("Email"));
             vendedor.setTelefone(rs.getString("Telefone"));
-            vendedor.setDataNascimento(rs.getDate("DataNascimento"));
+            vendedor.setDataNascimento(rs.getDate("DataNascimento").toLocalDate());
             vendedor.setCnpj(rsPJ.getString(1));
 
             return vendedor;
@@ -300,7 +319,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
                     comprador.setSobrenome(rs.getString("Sobrenome"));
                     comprador.setEmail(rs.getString("Email"));
                     comprador.setTelefone(rs.getString("Telefone"));
-                    comprador.setDataNascimento(rs.getDate("DataNascimento"));
+                    comprador.setDataNascimento(rs.getDate("DataNascimento").toLocalDate());
                     comprador.setCredito(rsComprador.getFloat(1));
 
                     lista.add(comprador);
@@ -323,7 +342,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
                     vendedor.setSobrenome(rs.getString("Sobrenome"));
                     vendedor.setEmail(rs.getString("Email"));
                     vendedor.setTelefone(rs.getString("Telefone"));
-                    vendedor.setDataNascimento(rs.getDate("DataNascimento"));
+                    vendedor.setDataNascimento(rs.getDate("DataNascimento").toLocalDate());
                     vendedor.setCpf(rsPF.getString(1));
 
                     lista.add(vendedor);
@@ -346,7 +365,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
                     vendedor.setSobrenome(rs.getString("Sobrenome"));
                     vendedor.setEmail(rs.getString("Email"));
                     vendedor.setTelefone(rs.getString("Telefone"));
-                    vendedor.setDataNascimento(rs.getDate("DataNascimento"));
+                    vendedor.setDataNascimento(rs.getDate("DataNascimento").toLocalDate());
                     vendedor.setCnpj(rsPJ.getString(1));
 
                     lista.add(vendedor);
