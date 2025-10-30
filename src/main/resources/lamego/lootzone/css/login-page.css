@@ -8,6 +8,15 @@
     src: url('fonts/inter/Inter_28pt-Bold.ttf');
 }
 
+.root-pane {
+    -fx-background-radius: 15;             /* raio dos cantos */
+    -fx-background-insets: 0;
+}
+
+.child-pane {
+    -fx-background-radius: 15;
+}
+
 .bg {
     -fx-background-color: #FAFAFA;
 }
@@ -28,6 +37,12 @@
 .textlabel-entrar {
     -fx-font-family: 'Inter 28pt Bold';
     -fx-font-size: 20px;
+}
+
+.textlabel-erro {
+    -fx-font-family: 'Inter 28pt Bold';
+    -fx-text-fill: red;
+    -fx-font-size: 11px;
 }
 
 .textfield {
@@ -68,4 +83,186 @@
     -fx-background-color: transparent;
     -fx-text-fill: linear-gradient(to right, #791BF5, #FF540D);
     -fx-cursor: hand;
+}
+
+.date-picker {
+    -fx-background-color: #EBEBEB;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: transparent;
+    -fx-font-family: 'Inter 24pt SemiBold';
+    -fx-font-size: 14px;
+    -fx-padding: 0 15 0 15;
+}
+
+/* Estilizando a TextField interna */
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000000;
+    -fx-font-family: 'Inter 24pt SemiBold';
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 0;
+    -fx-cursor: text;
+    -fx-border-color: transparent;
+    -fx-background-radius: 20;
+}
+
+/* Foco do campo (mesmo comportamento do seu TextField) */
+.date-picker:focused {
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: #EBEBEB;
+    -fx-border-radius: 20;
+    -fx-border-width: 2px;
+}
+
+/* Botão de seta */
+.date-picker .arrow-button {
+    -fx-background-color: #EBEBEB;
+    -fx-background-radius: 20;
+}
+
+/* Botão de seta ao passar o mouse */
+.date-picker .arrow-button:hover {
+    -fx-background-color: #FAFAFA;
+}
+
+.date-picker .arrow-button:focused {
+    -fx-background-color: #FAFAFA;
+}
+
+/* Popup (calendário) */
+.date-picker-popup {
+    -fx-background-color: #FFFFFF;          /* fundo do calendário */
+    -fx-border-color: #EBEBEB;
+    -fx-border-radius: 10;
+}
+
+/* Cabeçalho do calendário (mês/ano) */
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #EBEBEB;
+    -fx-text-fill: #000000;
+}
+
+/* Dias do calendário */
+.date-picker-popup .cell {
+    -fx-text-fill: #000000;
+    /*-fx-background-radius: 10;*/
+}
+
+/* Dia selecionado */
+.date-picker-popup .cell:selected {
+    -fx-background-color: #00BCD4;           /* ou qualquer cor da paleta do seu projeto */
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Dia ao passar o mouse */
+.date-picker-popup .cell:hover {
+    -fx-background-color: #FAFAFA;
+}
+
+
+
+/* Estilo geral do CheckBox */
+.check-box {
+    -fx-font-family: 'Inter 24pt SemiBold';
+    -fx-font-size: 14px;
+    -fx-text-fill: #000000;           /* cor do texto */
+    -fx-cursor: hand;                 /* cursor de mão */
+}
+
+/* Caixa de seleção */
+.check-box .box {
+    -fx-background-color: #EBEBEB;    /* fundo da caixa igual ao TextField */
+    -fx-border-color: transparent;
+    -fx-border-radius: 4;             /* cantos levemente arredondados */
+    -fx-background-radius: 4;
+    -fx-padding: 2;                    /* espaço interno */
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+}
+
+/* Caixa de seleção ao passar o mouse */
+.check-box .box:hover {
+    -fx-background-color: #FAFAFA;
+}
+
+/* Caixa de seleção marcada */
+.check-box:selected .box {
+    -fx-background-color: linear-gradient(to bottom right, #791BF5, #FF540D);    /* cor da marcação */
+    -fx-border-color: linear-gradient(to bottom right, #791BF5, #FF540D);
+}
+
+/* Marca de check (tick) */
+.check-box:selected .mark {
+    -fx-background-color: transparent;       /* cor do "✓" */
+}
+
+/* Foco na CheckBox */
+.check-box:focused .box {
+    -fx-background-image: url('../icons/check.png');
+    -fx-background-size: contain;   /* ajusta a imagem para preencher a caixa */
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: linear-gradient(to bottom right, #791BF5, #FF540D);
+    -fx-border-width: 2px;
+}
+
+
+/* Estilo geral do MenuButton */
+.menu-button {
+    -fx-background-color: #EBEBEB;           /* fundo igual ao TextField */
+    -fx-background-radius: 20;               /* cantos arredondados */
+    -fx-border-radius: 20;
+    -fx-border-color: transparent;
+    -fx-font-family: 'Inter 24pt SemiBold';
+    -fx-font-size: 14px;
+    -fx-text-fill: #000000;
+    -fx-padding: 5 15 5 15;                  /* padding interno */
+    -fx-cursor: hand;
+}
+
+/* MenuButton ao passar o mouse */
+.menu-button:hover {
+    -fx-background-color: #FAFAFA;
+}
+
+/* MenuButton em foco */
+.menu-button:focused {
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: #EBEBEB;
+    -fx-border-width: 2px;
+}
+
+/* Setinha do MenuButton */
+.menu-button .arrow {
+    -fx-background-color: #EBEBEB;
+    -fx-background-radius: 20;       /* arredonda lado direito */
+}
+
+/* Setinha ao passar o mouse */
+.menu-button .arrow:hover {
+    -fx-background-color: #FAFAFA;
+}
+
+/* Popup (itens do dropdown) */
+.menu-button .menu {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #EBEBEB;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 4);
+}
+
+/* Itens do menu */
+.menu-button .menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000000;
+    -fx-font-family: 'Inter 24pt SemiBold';
+    -fx-font-size: 14px;
+    -fx-padding: 8 15 8 15;
+}
+
+/* Item do menu ao passar o mouse */
+.menu-button .menu-item:hover {
+    -fx-background-color: #FAFAFA;
 }
