@@ -2,5 +2,6 @@ package lamego.lootzone.frameworks.ui.javafx.enums;
 
 public enum FormType {
     LOGIN,
-    SIGNUP
+    SIGNUP,
+    ACCOUNTTYPE
 }

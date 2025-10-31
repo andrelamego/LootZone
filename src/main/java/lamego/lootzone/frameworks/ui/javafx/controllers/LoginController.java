@@ -33,6 +33,7 @@ public class LoginController implements Initializable {
 
     private VBox loginForm;
     private VBox signupForm;
+    private VBox accountTypeForm;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,23 +82,34 @@ public class LoginController implements Initializable {
         stage.close();
     }
 
+    Object signupFormC;
+
     private void loadForms() {
         try {
             FXMLLoader fxmlLoaderLogin = new FXMLLoader(getClass().getResource("/lamego/lootzone/app/login/login-form.fxml"));
             FXMLLoader fxmlLoaderSignup = new FXMLLoader(getClass().getResource("/lamego/lootzone/app/login/signup-form.fxml"));
+            FXMLLoader fxmlLoaderAccountType = new FXMLLoader(getClass().getResource("/lamego/lootzone/app/login/account-type-form.fxml"));
             loginForm = fxmlLoaderLogin.load();
             signupForm = fxmlLoaderSignup.load();
+            accountTypeForm = fxmlLoaderAccountType.load();
             signupForm.setPrefWidth(10);
             signupForm.setOpacity(0);
+            accountTypeForm.setPrefWidth(10);
+            accountTypeForm.setOpacity(0);
 
             Object loginFormC = fxmlLoaderLogin.getController();
             if (loginFormC instanceof LoginFormController loginFormController) {
                 loginFormController.setParentController(this);
             }
 
-            Object signupFormC = fxmlLoaderSignup.getController();
+            signupFormC = fxmlLoaderSignup.getController();
             if (signupFormC instanceof SignupFormController signupController) {
                 signupController.setParentController(this);
+            }
+
+            Object accountTypeC = fxmlLoaderAccountType.getController();
+            if(accountTypeC instanceof AccountTypeController accountTypeController) {
+                accountTypeController.setParentController(this);
             }
 
             loginForm.setOpacity(0);
@@ -107,10 +119,14 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void changeForms(FormType formType) {
+    public Object getSignupController() {
+        return signupFormC;
+    }
+
+    public void changeForms(FormType formType, VBox leavingForm) {
         switch (formType) {
-            case LOGIN -> {
-                FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), loginForm);
+            case SIGNUP -> {
+                FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), leavingForm);
                 fadeOut.setInterpolator(Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0));
                 fadeOut.setToValue(0);
 
@@ -137,8 +153,8 @@ public class LoginController implements Initializable {
                 });
                 animation.play();
             }
-            case SIGNUP -> {
-                FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), signupForm);
+            case LOGIN -> {
+                FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), leavingForm);
                 fadeOut.setInterpolator(Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0));
                 fadeOut.setToValue(0);
 
@@ -149,7 +165,7 @@ public class LoginController implements Initializable {
 
                 Timeline collapse = new Timeline(
                         new KeyFrame(Duration.seconds(0.3),
-                                new KeyValue(signupForm.prefWidthProperty(), 280, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
+                                new KeyValue(leavingForm.prefWidthProperty(), 280, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
                 );
 
                 ParallelTransition animation = new ParallelTransition(expand, fadeOut, collapse);
@@ -164,6 +180,34 @@ public class LoginController implements Initializable {
                     fadeIn.play();
                 });
                 animation.play();
+            }
+            case ACCOUNTTYPE -> {
+                FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.3), signupForm);
+                fadeOut.setInterpolator(Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0));
+                fadeOut.setToValue(0);
+
+//                Timeline expand = new Timeline(
+//                        new KeyFrame(Duration.seconds(0.3),
+//                                new KeyValue(formBox.prefWidthProperty(), 470, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
+//                );
+//
+//                Timeline expandForm = new Timeline(
+//                        new KeyFrame(Duration.seconds(0.3),
+//                                new KeyValue(signupForm.prefWidthProperty(), 400, Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0)))
+//                );
+
+//                ParallelTransition animation = new ParallelTransition(expand, fadeOut, expandForm);
+                fadeOut.setOnFinished(event -> {
+                    formBox.getChildren().clear();
+
+                    accountTypeForm.setPrefWidth(400);
+                    formBox.getChildren().add(accountTypeForm);
+
+                    FadeTransition fadeIn = new FadeTransition(Duration.seconds(0.6), accountTypeForm);
+                    fadeIn.setToValue(1);
+                    fadeIn.play();
+                });
+                fadeOut.play();
             }
         }
     }

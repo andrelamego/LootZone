@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import lamego.lootzone.application.services.UsuarioService;
 import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
 import lamego.lootzone.infrastructure.database.IDBConnection;
@@ -23,6 +24,8 @@ public class LoginFormController implements Initializable {
     @FXML private PasswordField passwordField;
     @FXML private HBox errorWarning;
     @FXML private Label messageLabel;
+
+    @FXML private VBox form;
 
     private LoginController parentController;
     private UsuarioService usuarioService;
@@ -53,7 +56,7 @@ public class LoginFormController implements Initializable {
         passwordField.setText("");
 
 
-        parentController.changeForms(FormType.LOGIN);
+        parentController.changeForms(FormType.SIGNUP, form);
     }
 
     @FXML

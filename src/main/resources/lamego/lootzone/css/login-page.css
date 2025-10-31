@@ -194,75 +194,82 @@
 
 /* Marca de check (tick) */
 .check-box:selected .mark {
-    -fx-background-color: transparent;       /* cor do "✓" */
+    -fx-background-color: transparent;
+    -fx-background-image: url("../icons/check.png");
+    -fx-background-size: 16px 16px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
 }
 
 /* Foco na CheckBox */
 .check-box:focused .box {
-    -fx-background-image: url('../icons/check.png');
-    -fx-background-size: contain;   /* ajusta a imagem para preencher a caixa */
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
     -fx-border-color: linear-gradient(to bottom right, #791BF5, #FF540D);
     -fx-border-width: 2px;
 }
 
+/* Remove o check padrão (importante) */
+.check-box .mark {
+    -fx-shape: null;
+}
 
-/* Estilo geral do MenuButton */
-.menu-button {
-    -fx-background-color: #EBEBEB;           /* fundo igual ao TextField */
-    -fx-background-radius: 20;               /* cantos arredondados */
-    -fx-border-radius: 20;
-    -fx-border-color: transparent;
+
+/* Estilo geral do ComboBox */
+.combo-box {
     -fx-font-family: 'Inter 24pt SemiBold';
     -fx-font-size: 14px;
     -fx-text-fill: #000000;
-    -fx-padding: 5 15 5 15;                  /* padding interno */
+    -fx-background-color: #EBEBEB;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: transparent;
     -fx-cursor: hand;
+    -fx-padding: 0 10 0 10;
 }
 
-/* MenuButton ao passar o mouse */
-.menu-button:hover {
-    -fx-background-color: #FAFAFA;
-}
-
-/* MenuButton em foco */
-.menu-button:focused {
+/* Quando o ComboBox está em foco */
+.combo-box:focused {
     -fx-background-color: #FAFAFA;
     -fx-border-color: #EBEBEB;
     -fx-border-width: 2px;
 }
 
-/* Setinha do MenuButton */
-.menu-button .arrow {
-    -fx-background-color: #EBEBEB;
-    -fx-background-radius: 20;       /* arredonda lado direito */
-}
-
-/* Setinha ao passar o mouse */
-.menu-button .arrow:hover {
-    -fx-background-color: #FAFAFA;
-}
-
-/* Popup (itens do dropdown) */
-.menu-button .menu {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #EBEBEB;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 4);
-}
-
-/* Itens do menu */
-.menu-button .menu-item {
+/* A seta (botão de dropdown) */
+.combo-box .arrow-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #000000;
+    -fx-padding: 0 10 0 10;
+}
+
+/* Ícone da seta */
+.combo-box .arrow {
+    -fx-background-color: black;
+    -fx-shape: "M0,0 L5,5 L10,0 Z"; /* seta simples apontando pra baixo */
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+/* Lista suspensa (itens) */
+.combo-box-popup .list-view {
+    -fx-background-color: #FAFAFA;
+    -fx-background-radius: 10;
+    -fx-border-color: #EBEBEB;
+    -fx-border-radius: 10;
+}
+
+/* Itens individuais */
+.combo-box-popup .list-cell {
     -fx-font-family: 'Inter 24pt SemiBold';
     -fx-font-size: 14px;
-    -fx-padding: 8 15 8 15;
+    -fx-padding: 6 10 6 10;
 }
 
-/* Item do menu ao passar o mouse */
-.menu-button .menu-item:hover {
-    -fx-background-color: #FAFAFA;
+/* Itens ao passar o mouse */
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #EBEBEB;
+    -fx-text-fill: #000000;
+}
+
+/* Itens selecionados */
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #EBEBEB;
+    -fx-text-fill: #000000;
 }

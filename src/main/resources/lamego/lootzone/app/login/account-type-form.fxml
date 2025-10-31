@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lamego.lootzone.frameworks.ui.javafx.controllers.AccountTypeController">
+    <children>
+        <VBox fx:id="camposForm" alignment="TOP_CENTER" prefHeight="460.0" prefWidth="400.0" spacing="10.0" styleClass="rounded-border" stylesheets="@../../css/login-page.css">
+            <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" onAction="#onGoBackClicked" style="-fx-background-color: transparent;" textOverrun="CLIP">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/back-arrow.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                      <Label prefHeight="25.0" prefWidth="373.0" styleClass="textlabel-entrar" stylesheets="@../../css/login-page.css" text="Tipo de Conta">
+                          <font>
+                              <Font name="System Bold" size="20.0" />
+                          </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                      </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <ComboBox fx:id="cbAccountType" prefHeight="40.0" prefWidth="367.0" promptText="Selecione o tipo de conta">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </ComboBox>
+            <TextField prefHeight="40.0" visible="false">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </TextField>
+                <Pane prefHeight="2.0" prefWidth="10.0" VBox.vgrow="ALWAYS" />
+            <CheckBox mnemonicParsing="false" prefHeight="36.0" prefWidth="401.0" text="Concordo em compartilhar informações de uso com LootZone. (Fictício)" wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </CheckBox>
+                  <CheckBox mnemonicParsing="false" prefHeight="36.0" prefWidth="401.0" text="Concordo com os Termos de Privacidade." wrapText="true">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </CheckBox>
+                <HBox alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="238.0">
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </VBox.margin>
+                    <children>
+                  <HBox fx:id="errorWarning" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/error-warning.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="errorLabel" prefHeight="40.0" prefWidth="194.0" styleClass="textlabel-erro" stylesheets="@../../css/login-page.css" text="Simple two lines error message. Attention" wrapText="true">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                        <Pane prefHeight="43.0" prefWidth="3.0" HBox.hgrow="ALWAYS" />
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="136.0" styleClass="login-button" stylesheets="@../../css/login-page.css" text="Cadastrar-se">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+        <Pane VBox.vgrow="ALWAYS" />
+        <HBox alignment="CENTER" prefHeight="34.0" prefWidth="260.0">
+            <children>
+                <Label styleClass="textlabel" stylesheets="@../../css/login-page.css" text="Já possui uma conta?" />
+                <Button contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#onLogin" stylesheets="@../../css/login-page.css" text="Fazer Login" underline="true">
+                    <styleClass>
+                        <String fx:value="textlabel" />
+                        <String fx:value="signup-button" />
+                    </styleClass>
+                </Button>
+            </children>
+            <VBox.margin>
+                <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+        </HBox>
+    </children>
+</VBox>

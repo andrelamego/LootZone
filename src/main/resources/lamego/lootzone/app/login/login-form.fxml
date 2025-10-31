@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="280.0" spacing="10.0" styleClass="bg" stylesheets="@../../css/login-page.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lamego.lootzone.frameworks.ui.javafx.controllers.LoginFormController">
+<VBox fx:id="form" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="280.0" spacing="10.0" styleClass="bg" stylesheets="@../../css/login-page.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lamego.lootzone.frameworks.ui.javafx.controllers.LoginFormController">
    <children>
       <VBox prefHeight="308.0" prefWidth="280.0" spacing="10.0" styleClass="rounded-border">
          <children>
