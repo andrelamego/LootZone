@@ -12,6 +12,7 @@ import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
 import lamego.lootzone.infrastructure.database.IDBConnection;
 import lamego.lootzone.infrastructure.database.SQLServer;
 import lamego.lootzone.infrastructure.repositories.UsuarioRepository;
+import lamego.lootzone.shared.utils.MaskUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,61 +49,8 @@ public class SignupFormController implements Initializable {
         errorWarning.setVisible(false);
 
         //formatação dos campos
-        tfTelefone.setTextFormatter(new TextFormatter<String>(change -> {
-            if (change.isAdded() || change.isReplaced()) {
-                String newText = change.getControlNewText().replaceAll("[^0-9]", "");
-                if (newText.length() > 11) return null;
-
-                StringBuilder sb = new StringBuilder();
-                int len = newText.length();
-
-                int caretPos = change.getCaretPosition();
-
-                if (len > 0) sb.append("(");
-                if (len >= 1) sb.append(newText.substring(0, Math.min(2, len)));
-                if (len >= 3) sb.append(") ");
-                if (len >= 3) sb.append(newText.substring(2, Math.min(7, len)));
-                if (len >= 8) sb.append("-").append(newText.substring(7, len));
-
-                change.setText(sb.toString());
-                change.setRange(0, change.getControlText().length());
-
-                // Ajusta o cursor para ficar ao final
-                change.selectRange(change.getControlNewText().length(), change.getControlNewText().length());
-            }
-            return change;
-        }));
-        dpNascimento.getEditor().setTextFormatter(new TextFormatter<String>(change -> {
-            String newText = change.getControlNewText();
-
-            // Permite apenas números e "/"
-            if (!newText.matches("[0-9/]*")) {
-                return null;
-            }
-
-            // Limita a 10 caracteres (DD/MM/YYYY)
-            if (newText.length() > 10) {
-                return null;
-            }
-
-            // Aplica máscara automaticamente se desejar (opcional)
-            // Exemplo simples: adiciona "/" após dia e mês
-            String digits = newText.replaceAll("[^0-9]", "");
-            StringBuilder formatted = new StringBuilder();
-            int len = digits.length();
-
-            if (len > 0) formatted.append(digits.substring(0, Math.min(2, len))); // dia
-            if (len >= 3) formatted.append("/").append(digits.substring(2, Math.min(4, len))); // mês
-            if (len >= 5) formatted.append("/").append(digits.substring(4, Math.min(8, len))); // ano
-
-            change.setText(formatted.toString());
-            change.setRange(0, change.getControlText().length());
-
-            // Cursor no final
-            change.selectRange(change.getControlNewText().length(), change.getControlNewText().length());
-
-            return change;
-        }));
+        MaskUtils.aplicarMascaraTelefone(tfTelefone);
+        MaskUtils.aplicarMascaraData(dpNascimento);
 
         // cria as dependências necessárias
         try {

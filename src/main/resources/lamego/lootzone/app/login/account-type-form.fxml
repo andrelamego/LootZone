@@ -60,12 +60,12 @@
                </VBox.margin>
             </TextField>
                 <Pane prefHeight="2.0" prefWidth="10.0" VBox.vgrow="ALWAYS" />
-            <CheckBox mnemonicParsing="false" prefHeight="36.0" prefWidth="401.0" text="Concordo em compartilhar informações de uso com LootZone. (Fictício)" wrapText="true">
+            <CheckBox fx:id="checkUsageData" mnemonicParsing="false" prefHeight="36.0" prefWidth="401.0" text="Concordo em compartilhar informações de uso com LootZone. (Fictício)" wrapText="true">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </CheckBox>
-                  <CheckBox mnemonicParsing="false" prefHeight="36.0" prefWidth="401.0" text="Concordo com os Termos de Privacidade." wrapText="true">
+                  <CheckBox fx:id="checkPrivacyTerms" mnemonicParsing="false" prefHeight="36.0" prefWidth="401.0" text="Concordo com os Termos de Privacidade." wrapText="true">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
@@ -90,7 +90,7 @@
                      </children>
                   </HBox>
                         <Pane prefHeight="43.0" prefWidth="3.0" HBox.hgrow="ALWAYS" />
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="136.0" styleClass="login-button" stylesheets="@../../css/login-page.css" text="Cadastrar-se">
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSignupClicked" prefHeight="40.0" prefWidth="136.0" styleClass="login-button" stylesheets="@../../css/login-page.css" text="Cadastrar-se">
                             <font>
                                 <Font size="16.0" />
                             </font>

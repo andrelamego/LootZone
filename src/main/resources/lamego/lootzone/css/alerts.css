@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'Inter 24pt SemiBold';
+    src: url('fonts/inter/Inter_24pt-SemiBold.ttf');
+}
+
+.dialog-pane {
+    -fx-background-color: #FAFAFA;
+}
+
+.dialog-pane .content.label {
+    -fx-font-family: 'Inter 24pt SemiBold';
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+.dialog-pane .button {
+    -fx-background-color: white;
+    -fx-border-color: #EBEBEB;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15;
+    -fx-text-fill: black;
+    -fx-background-radius: 8;
+    -fx-padding: 5 15 5 15;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #EBEBEB;
+    -fx-background-radius: 15;
+    -fx-border-color: #EBEBEB;
+    -fx-border-width: 2px;
+    -fx-border-radius: 15;
+    -fx-text-fill: black;
+}
