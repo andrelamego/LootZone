@@ -4,6 +4,19 @@ public class VendedorPF extends Vendedor{
     private String cpf;
     private String comprovante;
 
+    public VendedorPF() {
+        super();
+    }
+
+    public VendedorPF(Usuario usuario) {
+        this.setNome(usuario.getNome());
+        this.setSobrenome(usuario.getSobrenome());
+        this.setEmail(usuario.getEmail());
+        this.setSenha(usuario.getSenha());
+        this.setTelefone(usuario.getTelefone());
+        this.setDataNascimento(usuario.getDataNascimento());
+    }
+
     //GETTERS N SETTERS
     public String getComprovante() {
         return comprovante;

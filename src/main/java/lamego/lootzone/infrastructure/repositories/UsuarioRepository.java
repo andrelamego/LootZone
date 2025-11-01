@@ -4,7 +4,6 @@ import lamego.lootzone.application.interfaces.IRepository;
 import lamego.lootzone.domain.entities.*;
 import lamego.lootzone.infrastructure.database.IDBConnection;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +20,13 @@ public class UsuarioRepository implements IRepository<Usuario> {
 
     @Override
     public void salvar(Usuario entidade) throws SQLException{
-        String sql = "INSERT INTO t_usuarios (Nome, Sobrenome, Email, Telefone, DataNascimento) VALUES(?,?,?,?,?)";
-        PreparedStatement ps = c.prepareStatement(sql);
+        String sql = "INSERT INTO t_usuarios (Nome, Sobrenome, Email, Senha, Telefone, DataNascimento) VALUES(?,?,?,?,?,?)";
+        PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-        ps.setLong(1, entidade.getId());
-        ps.setString(2, entidade.getNome());
-        ps.setString(3, entidade.getSobrenome());
-        ps.setString(4, entidade.getEmail());
+        ps.setString(1, entidade.getNome());
+        ps.setString(2, entidade.getSobrenome());
+        ps.setString(3, entidade.getEmail());
+        ps.setString(4, entidade.getSenha());
         ps.setString(5, entidade.getTelefone());
         ps.setDate(6, Date.valueOf(entidade.getDataNascimento()));
         ps.executeUpdate();
@@ -37,6 +36,9 @@ public class UsuarioRepository implements IRepository<Usuario> {
         if(keys.next()) {
             entidade.setId(keys.getLong(1));
         }
+        ps.close();
+
+        System.out.println(entidade.getId());
 
         //INSERIR NA TABELA CORRESPONDENTE AO TIPO
         switch (entidade) {
@@ -46,6 +48,8 @@ public class UsuarioRepository implements IRepository<Usuario> {
                 psComprador.setLong(1, comprador.getId());
                 psComprador.setFloat(2, comprador.getCredito());
                 psComprador.executeUpdate();
+                
+                psComprador.close();
             }
             case VendedorPF vendedorPF -> {
                 String sqlVendedor = "INSERT INTO t_vendedores (UsuarioId) VALUES (?)";
@@ -54,16 +58,14 @@ public class UsuarioRepository implements IRepository<Usuario> {
                 psVendedor.setLong(1, vendedorPF.getId());
                 psVendedor.executeUpdate();
 
-                ResultSet vendKeys = psVendedor.getGeneratedKeys();
-                if (vendKeys.next()) {
-                    long vendedorID = vendKeys.getLong(1);
-                    String sqlPF = "INSERT INTO t_vendedoresPF (VendedorId, CPF) VALUES (?,?)";
-                    PreparedStatement psPF = c.prepareStatement(sqlPF);
+                String sqlPF = "INSERT INTO t_vendedoresPF (VendedorId, CPF) VALUES (?,?)";
+                PreparedStatement psPF = c.prepareStatement(sqlPF);
 
-                    psPF.setLong(1, vendedorID);
-                    psPF.setString(2, vendedorPF.getCpf());
-                    psPF.executeUpdate();
-                }
+                psPF.setLong(1, vendedorPF.getId());
+                psPF.setString(2, vendedorPF.getCpf());
+                psPF.executeUpdate();
+                
+                psPF.close();
             }
             case VendedorPJ vendedorPJ -> {
                 String sqlVendedor = "INSERT INTO t_vendedores (UsuarioId) VALUES (?)";
@@ -72,22 +74,17 @@ public class UsuarioRepository implements IRepository<Usuario> {
                 psVendedor.setLong(1, vendedorPJ.getId());
                 psVendedor.executeUpdate();
 
-                ResultSet vendKeys = psVendedor.getGeneratedKeys();
-                if (vendKeys.next()) {
-                    long vendedorID = vendKeys.getLong(1);
-                    String sqlPJ = "INSERT INTO t_vendedoresPJ (VendedorId, CPF) VALUES (?,?)";
-                    PreparedStatement psPJ = c.prepareStatement(sqlPJ);
+                String sqlPJ = "INSERT INTO t_vendedoresPJ (VendedorId, CNPJ) VALUES (?,?)";
+                PreparedStatement psPJ = c.prepareStatement(sqlPJ);
 
-                    psPJ.setLong(1, vendedorID);
-                    psPJ.setString(2, vendedorPJ.getCnpj());
-                    psPJ.executeUpdate();
-                }
+                psPJ.setLong(1, vendedorPJ.getId());
+                psPJ.setString(2, vendedorPJ.getCnpj());
+                psPJ.executeUpdate();
+                
+                psPJ.close();
             }
-            default -> {
-            }
+            default -> throw new IllegalStateException("Unexpected value: " + entidade);
         }
-
-        ps.close();
     }
 
     @Override
@@ -219,7 +216,7 @@ public class UsuarioRepository implements IRepository<Usuario> {
         return entidade;
     }
 
-    public Usuario validateLogin(String email) throws SQLException {
+    public Usuario buscarPorEmail(String email) throws SQLException {
         String sql = "SELECT Id, Nome, Sobrenome, Senha, Telefone, DataNascimento FROM t_usuarios WHERE Email = ?";
         PreparedStatement ps = c.prepareStatement(sql);
 
@@ -234,6 +231,29 @@ public class UsuarioRepository implements IRepository<Usuario> {
             user.setEmail(email);
             user.setSenha(rs.getString(4));
             user.setTelefone(rs.getString(5));
+            user.setDataNascimento(rs.getDate(6).toLocalDate());
+
+            return user;
+        }
+
+        return null;
+    }
+
+    public Usuario buscarPorTelefone(String telefone) throws SQLException {
+        String sql = "SELECT Id, Nome, Sobrenome, Email, Senha, DataNascimento FROM t_usuarios WHERE Telefone = ?";
+        PreparedStatement ps = c.prepareStatement(sql);
+
+        ps.setString(1, telefone);
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()) {
+            Usuario user = new Usuario();
+            user.setId(rs.getLong(1));
+            user.setNome(rs.getString(2));
+            user.setSobrenome(rs.getString(3));
+            user.setEmail(rs.getString(4));
+            user.setSenha(rs.getString(5));
+            user.setTelefone(telefone);
             user.setDataNascimento(rs.getDate(6).toLocalDate());
 
             return user;

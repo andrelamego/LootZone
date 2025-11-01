@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lamego.lootzone.application.exceptions.RegraNegocioException;
 import lamego.lootzone.application.services.UsuarioService;
 import lamego.lootzone.domain.entities.Usuario;
 import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
@@ -63,55 +64,48 @@ public class SignupFormController implements Initializable {
     }
 
     @FXML
-    public void onLogin(ActionEvent e) throws IOException {
+    public void onLogin(ActionEvent e) {
         parentController.changeForms(FormType.LOGIN, form);
     }
 
     @FXML
-    public void onSignupClicked() throws SQLException {
+    public void onSignupClicked() {
         String nome = tfNome.getText();
         String sobrenome = tfSobrenome.getText();
         String email = tfEmail.getText();
-        String telefone = tfTelefone.getText();
+        String telefone = MaskUtils.limparFormatacao(tfTelefone.getText());
         LocalDate dataNascimento = dpNascimento.getValue();
         String senha = tfPassword.getText();
         String confirmSenha = tfConfirmPassword.getText();
 
         if(nome.isEmpty() || sobrenome.isEmpty() || email.isEmpty() || telefone.isEmpty() ||
                 dataNascimento == null || senha.isEmpty() || confirmSenha.isEmpty()){
-            errorLabel.setText("Todos os campos são obrigatórios");
-            errorWarning.setVisible(true);
+            showError("Todos os campos são obrigatórios");
             return;
         }
 
         if(!senha.equals(tfConfirmPassword.getText())){
-            errorLabel.setText("A senha deve ser igual nos dois campos");
-            errorWarning.setVisible(true);
+            showError("A senha deve ser igual nos dois campos");
             return;
         }
 
         try {
-            boolean emailExists = usuarioService.emailExists(email);
-            boolean telefoneExists = usuarioService.telefoneExists(telefone);
-
-            if(emailExists){
-                errorLabel.setText("O Endereço de Email já está sendo utilizado.");
-                errorWarning.setVisible(true);
-                return;
-            }
-
-            if(telefoneExists){
-                errorLabel.setText("O Número de Telefone já está sendo utilizado.");
-                errorWarning.setVisible(true);
-                return;
-            }
+            usuarioService.emailExists(email);
+            usuarioService.telefoneExists(telefone);
 
             usuario = new Usuario(nome, sobrenome, email, senha, telefone, dataNascimento);
             parentController.changeForms(FormType.ACCOUNTTYPE, form);
-        } catch (Exception e) {
+        } catch (RegraNegocioException e) {
+            showError(e.getMessage());
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void showError(String msg) {
+        errorLabel.setText(msg);
+        errorWarning.setVisible(true);
     }
 
     public Usuario getUsuario() {

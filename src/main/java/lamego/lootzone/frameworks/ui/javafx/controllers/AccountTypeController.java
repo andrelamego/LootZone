@@ -7,20 +7,18 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lamego.lootzone.application.exceptions.RegraNegocioException;
 import lamego.lootzone.application.services.UsuarioService;
-import lamego.lootzone.domain.entities.Comprador;
 import lamego.lootzone.domain.entities.Usuario;
-import lamego.lootzone.domain.entities.VendedorPF;
-import lamego.lootzone.domain.entities.VendedorPJ;
 import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
 import lamego.lootzone.infrastructure.database.IDBConnection;
 import lamego.lootzone.infrastructure.database.SQLServer;
 import lamego.lootzone.infrastructure.repositories.UsuarioRepository;
 import lamego.lootzone.shared.utils.MaskUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AccountTypeController implements Initializable {
@@ -107,90 +105,41 @@ public class AccountTypeController implements Initializable {
     }
 
     @FXML
-    public void onSignupClicked() throws SQLException {
+    public void onSignupClicked() {
         getUserInformation();
 
         if(cbAccountType.getValue() == null) {
-            errorLabel.setText("Selecione um tipo de conta válido");
-            errorWarning.setVisible(true);
+            showError("Selecione um tipo de conta válido");
+            return;
+        }
+
+        if(tfCredito.getText().isEmpty() && tfCPF.getText().isEmpty() && tfCNPJ.getText().isEmpty()) {
+            showError("Todos os campos são obrigatórios");
+            return;
+        }
+
+        if(!checkPrivacyTerms.isSelected()){
+            showError("Concordar com os Termos de Privacidade é obrigatório");
             return;
         }
 
         String accountType = cbAccountType.getValue();
 
-        if(tfCredito.getText().isEmpty() && tfCPF.getText().isEmpty() && tfCNPJ.getText().isEmpty()) {
-            errorLabel.setText("Todos os campos são obrigatórios");
-            errorWarning.setVisible(true);
-            return;
-        }
-
-        if(!checkPrivacyTerms.isSelected()){
-            errorLabel.setText("Concordar com os Termos de Privacidade é obrigatório");
-            errorWarning.setVisible(true);
-            return;
-        }
-
-        if(accountType.equals(cbComprador)){
-            float credito = MaskUtils.parseValorMonetario(MaskUtils.limparFormatacao(tfCredito.getText()));
-
-            if(credito < 10.0f) {
-                errorLabel.setText("O valor mínimo é de R$ 10,00");
-                errorWarning.setVisible(true);
-                return;
+        try {
+            switch (accountType){
+                case cbComprador -> usuarioService.cadastrarComprador(usuario, tfCredito.getText());
+                case cbVendedorPF -> usuarioService.cadastrarVendedorPF(usuario, tfCPF.getText());
+                case cbVendedorPJ -> usuarioService.cadastrarVendedorPJ(usuario, tfCNPJ.getText());
             }
 
-            Comprador comprador = new Comprador();
-            comprador.setNome(usuario.getNome());
-            comprador.setSobrenome(usuario.getSobrenome());
-            comprador.setEmail(usuario.getEmail());
-            comprador.setSenha(usuario.getSenha());
-            comprador.setTelefone(usuario.getTelefone());
-            comprador.setDataNascimento(usuario.getDataNascimento());
-            comprador.setCredito(credito);
-
-//            usuarioService.cadastrarUsuario(comprador);
-        } else if (accountType.equals(cbVendedorPF)) {
-            if(tfCPF.getText().length() != 14) {
-                errorLabel.setText("CPF inválido!");
-                errorWarning.setVisible(true);
-                return;
-            }
-
-            String cpf = MaskUtils.limparFormatacao(tfCPF.getText());
-
-            VendedorPF vendedorPF = new VendedorPF();
-            vendedorPF.setNome(usuario.getNome());
-            vendedorPF.setSobrenome(usuario.getSobrenome());
-            vendedorPF.setEmail(usuario.getEmail());
-            vendedorPF.setSenha(usuario.getSenha());
-            vendedorPF.setTelefone(usuario.getTelefone());
-            vendedorPF.setDataNascimento(usuario.getDataNascimento());
-            vendedorPF.setCpf(cpf);
-
-//            usuarioService.cadastrarUsuario(vendedorPF);
-        } else if (accountType.equals(cbVendedorPJ)) {
-            if(tfCNPJ.getText().length() != 18) {
-                errorLabel.setText("CNPJ inválido!");
-                errorWarning.setVisible(true);
-                return;
-            }
-
-            String cnpj = MaskUtils.limparFormatacao(tfCNPJ.getText());
-
-            VendedorPJ vendedorPJ = new VendedorPJ();
-            vendedorPJ.setNome(usuario.getNome());
-            vendedorPJ.setSobrenome(usuario.getSobrenome());
-            vendedorPJ.setEmail(usuario.getEmail());
-            vendedorPJ.setSenha(usuario.getSenha());
-            vendedorPJ.setTelefone(usuario.getTelefone());
-            vendedorPJ.setDataNascimento(usuario.getDataNascimento());
-            vendedorPJ.setCnpj(cnpj);
-
-//            usuarioService.cadastrarUsuario(vendedorPJ);
+            showConfirmationDialog();
+            parentController.changeForms(FormType.LOGIN, form);
+        } catch (RegraNegocioException e) {
+            showError(e.getMessage());
+        } catch (SQLException e) {
+            showError(e.getMessage());
+            e.printStackTrace();
         }
-
-        showConfirmationDialog();
-        parentController.changeForms(FormType.LOGIN, form);
     }
 
     private void showConfirmationDialog() {
@@ -200,10 +149,15 @@ public class AccountTypeController implements Initializable {
 
         // aplicar CSS
         alert.getDialogPane().getStylesheets().add(
-                getClass().getResource("/lamego/lootzone/css/alerts.css").toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/lamego/lootzone/css/alerts.css")).toExternalForm()
         );
 
         alert.showAndWait();
+    }
+
+    private void showError(String msg) {
+        errorLabel.setText(msg);
+        errorWarning.setVisible(true);
     }
 
     private void getUserInformation() {
@@ -212,7 +166,7 @@ public class AccountTypeController implements Initializable {
     }
 
     @FXML
-    public void onLogin(ActionEvent e) throws IOException {
+    public void onLogin(ActionEvent e) {
         errorWarning.setVisible(false);
         parentController.changeForms(FormType.LOGIN, form);
     }

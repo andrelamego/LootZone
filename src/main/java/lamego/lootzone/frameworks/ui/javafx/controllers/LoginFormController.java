@@ -7,6 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lamego.lootzone.application.exceptions.RegraNegocioException;
 import lamego.lootzone.application.services.UsuarioService;
 import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
 import lamego.lootzone.infrastructure.database.IDBConnection;
@@ -23,7 +24,7 @@ public class LoginFormController implements Initializable {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private HBox errorWarning;
-    @FXML private Label messageLabel;
+    @FXML private Label errorLabel;
 
     @FXML private VBox form;
 
@@ -49,7 +50,7 @@ public class LoginFormController implements Initializable {
     }
 
     @FXML
-    public void onCreateAccount() throws IOException {
+    public void onCreateAccount() {
         //limpa campos
         errorWarning.setVisible(false);
         emailField.setText("");
@@ -65,26 +66,23 @@ public class LoginFormController implements Initializable {
         String password = passwordField.getText();
 
         if(email.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("Todos os campos devem ser preenchidos");
-            errorWarning.setVisible(true);
+            showError("Todos os campos devem ser preenchidos");
             return;
         }
 
         try {
-            boolean success = usuarioService.autenticar(email, password);
+            usuarioService.autenticar(email, password);
+            showError("Login efetuado");
 
-            if (success) {
-                //TODO - Troca de tela
-                messageLabel.setText("Login efetuado!");
-                errorWarning.setVisible(true);
-            }
-            else{
-                messageLabel.setText("Usuário ou senha incorretos!");
-                errorWarning.setVisible(true);
-            }
-
+        } catch (RegraNegocioException e) {
+            showError(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void showError(String msg) {
+        errorLabel.setText(msg);
+        errorWarning.setVisible(true);
     }
 }
