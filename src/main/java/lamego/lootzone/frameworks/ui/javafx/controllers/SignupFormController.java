@@ -14,6 +14,7 @@ import lamego.lootzone.infrastructure.database.IDBConnection;
 import lamego.lootzone.infrastructure.database.SQLServer;
 import lamego.lootzone.infrastructure.repositories.UsuarioRepository;
 import lamego.lootzone.shared.utils.MaskUtils;
+import lamego.lootzone.shared.utils.ValidationUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -84,6 +85,16 @@ public class SignupFormController implements Initializable {
             return;
         }
 
+        if(!ValidationUtils.isValidEmail(email)){
+            showError("Email Inválido!");
+            return;
+        }
+
+        if(senha.length() < 6) {
+            showError("A senha deve ter no mínimo 6 digitos");
+            return;
+        }
+
         if(!senha.equals(tfConfirmPassword.getText())){
             showError("A senha deve ser igual nos dois campos");
             return;
@@ -107,6 +118,7 @@ public class SignupFormController implements Initializable {
         errorLabel.setText(msg);
         errorWarning.setVisible(true);
     }
+
 
     public Usuario getUsuario() {
         return usuario;
