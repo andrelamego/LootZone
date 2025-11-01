@@ -15,12 +15,16 @@ import javafx.scene.paint.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
+import lamego.lootzone.shared.utils.WindowAnimator;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+
+    @FXML
+    private HBox loginPage;
 
     @FXML
     private VBox formBox;
@@ -37,7 +41,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-                //Respiração do fundo
+        //Respiração do fundo
         applyFluidGradientWithFlow(logoBox);
 
         // Inicialmente, o formBox fica fora da tela
@@ -210,6 +214,19 @@ public class LoginController implements Initializable {
                 fadeOut.play();
             }
         }
+    }
+
+    public void changeSceneAnimation(Stage stage) {
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(0.6), loginPage);
+        fadeOut.setInterpolator(Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0));
+        fadeOut.setToValue(0);
+
+        fadeOut.setOnFinished(e -> {
+//            WindowAnimator.animateStageSize(stage, 1280, 720, Duration.millis(700));
+//            WindowAnimator.expandFromCenter(stage, 1280, 720, loginPage);
+            WindowAnimator.expandFromCenter(stage, 1280, 720);
+        });
+        fadeOut.play();
     }
 
     /**

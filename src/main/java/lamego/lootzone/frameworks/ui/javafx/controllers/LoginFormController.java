@@ -1,18 +1,27 @@
 package lamego.lootzone.frameworks.ui.javafx.controllers;
 
+import javafx.animation.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import lamego.lootzone.application.exceptions.RegraNegocioException;
 import lamego.lootzone.application.services.UsuarioService;
+import lamego.lootzone.frameworks.ui.javafx.SceneManager;
 import lamego.lootzone.frameworks.ui.javafx.enums.FormType;
 import lamego.lootzone.infrastructure.database.IDBConnection;
 import lamego.lootzone.infrastructure.database.SQLServer;
 import lamego.lootzone.infrastructure.repositories.UsuarioRepository;
+import lamego.lootzone.shared.utils.WindowAnimator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +70,7 @@ public class LoginFormController implements Initializable {
     }
 
     @FXML
-    public void onLoginClicked() {
+    public void onLoginClicked(ActionEvent event) {
         String email = emailField.getText();
         String password = passwordField.getText();
 
@@ -72,7 +81,17 @@ public class LoginFormController implements Initializable {
 
         try {
             usuarioService.autenticar(email, password);
-            showError("Login efetuado");
+
+            //TROCA DE TELA
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            parentController.changeSceneAnimation(stage);
+
+            PauseTransition wait = new PauseTransition(Duration.seconds(0.6));
+            wait.setOnFinished(e -> {
+                SceneManager.changeScene("/lamego/lootzone/app/landing/landing-page.fxml");
+            });
+            wait.play();
 
         } catch (RegraNegocioException e) {
             showError(e.getMessage());

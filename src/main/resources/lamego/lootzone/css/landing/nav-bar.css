@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Inter 28pt Bold';
+    src: url('../fonts/inter/Inter_28pt-Bold.ttf');
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.button:hover {
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.label {
+    -fx-font-family: 'Inter 28pt Bold';
+    -fx-font-size: 18px;
+}
+
