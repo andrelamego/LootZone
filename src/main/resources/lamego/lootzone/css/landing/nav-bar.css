@@ -15,8 +15,31 @@
     -fx-border-radius: 0;
 }
 
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover {
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+
+}
+
 .label {
     -fx-font-family: 'Inter 28pt Bold';
     -fx-font-size: 18px;
 }
 
+.round-layout {
+    -fx-padding: 0 10 0 10;
+    -fx-border-radius: 50;
+    -fx-border-color: black;
+}
+
+.textfield {
+    -fx-background-color: transparent;
+}
